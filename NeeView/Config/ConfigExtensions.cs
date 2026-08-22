@@ -15,6 +15,8 @@ namespace NeeView
                     => 1,
                 PageMode.WidePage
                     => 2,
+                PageMode.Webtoon
+                    => 1,
                 _
                     => throw new NotSupportedException()
             };
