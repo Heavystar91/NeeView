@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - feature/webtoon-continuous-scroll
+  pull_request:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -29,3 +32,13 @@ jobs:
 
       - name: Run unit tests
         run: dotnet test NeeView.UnitTest/NeeView.UnitTest.csproj -c Release --no-restore --verbosity normal
+
+      - name: Publish portable test build
+        run: dotnet publish NeeView/NeeView.csproj -c Release -p:Platform=x64 --no-restore -o artifacts/NeeView-Webtoon
+
+      - name: Upload NeeView-Webtoon artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NeeView-Webtoon-test
+          path: artifacts/NeeView-Webtoon
+          if-no-files-found: error
