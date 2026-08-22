@@ -55,6 +55,16 @@ namespace NeeView
             _box.ScrollToNextFrame(LinkedListDirection.Next, parameter, parameter.LineBreakStopMode, parameter.EndMargin, allowScroll);
         }
 
+        public void ScrollWebtoonPrev(object? sender)
+        {
+            _box.ScrollWebtoon(LinkedListDirection.Previous);
+        }
+
+        public void ScrollWebtoonNext(object? sender)
+        {
+            _box.ScrollWebtoon(LinkedListDirection.Next);
+        }
+
         public void MoveTo(object? sender, int index)
         {
             if (Pages.Count <= 0) return;
