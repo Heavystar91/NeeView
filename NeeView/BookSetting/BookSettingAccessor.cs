@@ -82,7 +82,7 @@ namespace NeeView
         public PageMode PageMode
         {
             get => _setting.PageMode;
-            set => _setting.PageMode = value;
+            set => SetPageMode(value);
         }
 
         public AutoRotateType AutoRotate
@@ -115,11 +115,27 @@ namespace NeeView
             return CanEdit && _setting.PageMode == mode;
         }
 
-        // 単ページ/見開き表示設定
+        // 単ページ/見開き/Webtoon表示設定
         public void SetPageMode(PageMode mode)
         {
             if (!CanEdit) return;
+
+            var previousMode = _setting.PageMode;
             _setting.PageMode = mode;
+
+            // MVP Webtoon mode is built on NeeView's existing panorama pipeline.
+            // This gives us continuous vertical page layout, incremental loading,
+            // and the existing Effects pipeline without creating a second viewer.
+            if (mode == PageMode.Webtoon)
+            {
+                Config.Current.Book.Orientation = PageFrameOrientation.Vertical;
+                Config.Current.Book.IsPanorama = true;
+                Config.Current.View.StretchMode = PageStretchMode.UniformToHorizontal;
+            }
+            else if (previousMode == PageMode.Webtoon)
+            {
+                Config.Current.Book.IsPanorama = false;
+            }
         }
 
         public void TogglePageMode(int direction, bool isLoop)
