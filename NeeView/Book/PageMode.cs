@@ -11,6 +11,10 @@ namespace NeeView
 
         [AliasName]
         WidePage,
+
+        // Webtoon / continuous vertical scrolling mode.
+        [AliasName]
+        Webtoon,
     }
 
 
@@ -33,7 +37,7 @@ namespace NeeView
         public static PageMode Validate(this PageMode mode)
         {
             if (mode < PageMode.SinglePage) return PageMode.SinglePage;
-            if (mode > PageMode.WidePage) return PageMode.WidePage;
+            if (mode > PageMode.Webtoon) return PageMode.Webtoon;
             return mode;
         }
 
