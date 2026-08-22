@@ -21,12 +21,6 @@ namespace NeeView
 
         public override void Execute(object? sender, CommandContext e)
         {
-            if (BookSettings.Current.PageMode == PageMode.Webtoon)
-            {
-                BookOperation.Current.Control.ScrollWebtoonPrev(sender);
-                return;
-            }
-
             var parameter = e.Parameter.Cast<ScrollPageCommandParameter>();
             BookOperation.Current.Control.ScrollToPrevFrame(sender, parameter);
         }
