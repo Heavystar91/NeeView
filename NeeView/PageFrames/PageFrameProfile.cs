@@ -43,9 +43,9 @@ namespace NeeView.PageFrames
         }
 
 
-        public bool IsStaticFrame => !_config.Book.IsPanorama;
+        public bool IsStaticFrame => _settingConfig.PageMode != PageMode.Webtoon && !_config.Book.IsPanorama;
 
-        public double FrameMargin => _config.Book.FrameSpace;
+        public double FrameMargin => _settingConfig.PageMode == PageMode.Webtoon ? 0.0 : _config.Book.FrameSpace;
 
         public Size CanvasSize
         {
@@ -130,6 +130,13 @@ namespace NeeView.PageFrames
 
         private void BookSettingConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
+            switch (e.PropertyName)
+            {
+                case nameof(BookSettingConfig.PageMode):
+                    OnPropertyChanged(nameof(IsStaticFrame));
+                    OnPropertyChanged(nameof(FrameMargin));
+                    break;
+            }
         }
 
         private void MainViewConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
