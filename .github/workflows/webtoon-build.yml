@@ -29,7 +29,7 @@ jobs:
         run: |
           $path = 'SevenZipSharp/SevenZip/SevenZip.csproj'
           $text = Get-Content $path -Raw
-          $text = $text.Replace("'$(Configuration)|$(Platform)'=='Release|AnyCPU'", "'$(Configuration)'=='Release'")
+          $text = $text.Replace("'`$(Configuration)|`$(Platform)'=='Release|AnyCPU'", "'`$(Configuration)'=='Release'")
           Set-Content $path $text -Encoding utf8
 
       - name: Restore
