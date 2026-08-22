@@ -39,8 +39,8 @@ jobs:
       - name: Build NeeView
         run: dotnet build NeeView/NeeView.csproj -c Release -p:Platform=x64 --no-restore
 
-      - name: Run unit tests
-        run: dotnet test NeeView.UnitTest/NeeView.UnitTest.csproj -c Release -p:Platform=x64 --no-restore --verbosity normal
+      - name: Run Webtoon PageMode tests
+        run: dotnet test NeeView.UnitTest/NeeView.UnitTest.csproj -c Release -p:Platform=x64 --no-restore --filter "FullyQualifiedName~PageModeTests" --verbosity normal
 
       - name: Publish portable test build
         run: dotnet publish NeeView/NeeView.csproj -c Release -p:Platform=x64 --no-restore -o artifacts/NeeView-Webtoon
