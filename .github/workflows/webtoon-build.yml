@@ -26,3 +26,6 @@ jobs:
 
       - name: Build NeeView
         run: dotnet build NeeView/NeeView.csproj -c Release -p:Platform=x64 --no-restore
+
+      - name: Run unit tests
+        run: dotnet test NeeView.UnitTest/NeeView.UnitTest.csproj -c Release --no-restore --verbosity normal
