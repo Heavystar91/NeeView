@@ -138,11 +138,10 @@ namespace NeeView.PageFrames
         public ImageDotKeepConfig ImageDotKeepConfig => _config.ImageDotKeep;
         public bool IsAspectRatioEnabled => _config.Image.Standard.IsAspectRatioEnabled;
 
-        // Webtoon mode always gets a short interpolation window so each wheel step
-        // blends into the next one instead of feeling like a sequence of hard jumps.
-        // Normal viewing modes continue to use the user's existing scroll setting.
+        // OpenComic-style Webtoon scrolling uses a slightly longer glide so a viewport-sized
+        // movement reads as one continuous motion rather than a sequence of discrete jumps.
         public TimeSpan ScrollDuration => PageMode == PageMode.Webtoon
-            ? TimeSpan.FromSeconds(0.12)
+            ? TimeSpan.FromSeconds(0.20)
             : TimeSpan.FromSeconds(_config.View.ScrollDuration);
 
         [ObservableProperty]
