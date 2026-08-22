@@ -460,6 +460,7 @@ SettingPage.Archive.SevenZip=@Archiver.SevenZip
 SettingPage.Archive.SevenZipAdvance=@Word.AdvancedSetting
 SettingPage.Archive.SevenZipFeature=@Archiver.SevenZip
 SettingPage.Archive.Zip=@Word.Zip
+SettingPage.Archive.ZipAdvance=@Word.AdvancedSetting
 SettingPage.Book.General=@Word.Book
 SettingPage.Book.Move=@Word.Move
 SettingPage.Book.WidePage=@PageMode.WidePage
