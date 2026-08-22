@@ -25,20 +25,26 @@ namespace NeeView
 
             if (BookSettings.Current.PageMode == PageMode.Webtoon)
             {
-                // Webtoon mode treats the loaded panorama as one tall surface so the
-                // mouse wheel scrolls through page boundaries instead of turning pages.
+                // Webtoon mode treats the loaded panorama as one tall surface and uses
+                // a smaller movement per wheel notch for browser-like fine scrolling.
                 var pagesAsOne = parameter.PagesAsOne;
                 var scrollType = parameter.ScrollType;
+                var scroll = parameter.Scroll;
+                var lineBreakStopTime = parameter.LineBreakStopTime;
                 try
                 {
                     parameter.PagesAsOne = true;
                     parameter.ScrollType = NScrollType.Vertical;
+                    parameter.Scroll = 0.25;
+                    parameter.LineBreakStopTime = 0.0;
                     BookOperation.Current.Control.ScrollToPrevFrame(sender, parameter);
                 }
                 finally
                 {
                     parameter.PagesAsOne = pagesAsOne;
                     parameter.ScrollType = scrollType;
+                    parameter.Scroll = scroll;
+                    parameter.LineBreakStopTime = lineBreakStopTime;
                 }
                 return;
             }
