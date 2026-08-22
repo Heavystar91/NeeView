@@ -21,7 +21,29 @@ namespace NeeView
 
         public override void Execute(object? sender, CommandContext e)
         {
-            BookOperation.Current.Control.ScrollToPrevFrame(sender, e.Parameter.Cast<ScrollPageCommandParameter>());
+            var parameter = e.Parameter.Cast<ScrollPageCommandParameter>();
+
+            if (BookSettings.Current.PageMode == PageMode.Webtoon)
+            {
+                // Webtoon mode treats the loaded panorama as one tall surface so the
+                // mouse wheel scrolls through page boundaries instead of turning pages.
+                var pagesAsOne = parameter.PagesAsOne;
+                var scrollType = parameter.ScrollType;
+                try
+                {
+                    parameter.PagesAsOne = true;
+                    parameter.ScrollType = NScrollType.Vertical;
+                    BookOperation.Current.Control.ScrollToPrevFrame(sender, parameter);
+                }
+                finally
+                {
+                    parameter.PagesAsOne = pagesAsOne;
+                    parameter.ScrollType = scrollType;
+                }
+                return;
+            }
+
+            BookOperation.Current.Control.ScrollToPrevFrame(sender, parameter);
         }
     }
 
