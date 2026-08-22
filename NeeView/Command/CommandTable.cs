@@ -454,7 +454,6 @@ namespace NeeView
             {
                 new ObsoleteCommandItem("ToggleVisibleTitleBar", null, 39),
                 new ObsoleteCommandItem("ToggleVisiblePagemarkList", "ToggleVisiblePlaylist", 39),
-                new ObsoleteCommandItem("ToggleHideThumbnailList", "ToggleVisibleFilmStrip", 39),
                 new ObsoleteCommandItem("TogglePagemark", "TogglePlaylistMark", 39),
                 new ObsoleteCommandItem("PrevPagemark", "PrevPlaylistItem", 39),
                 new ObsoleteCommandItem("NextPagemark", "NextPlaylistItem", 39),
