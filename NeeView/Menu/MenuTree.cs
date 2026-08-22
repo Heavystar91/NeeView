@@ -171,6 +171,7 @@ namespace NeeView
                 {
                     new TreeListNode<MenuElement>(new CommandMenuElement() { CommandName = "SetPageModeOne" }),
                     new TreeListNode<MenuElement>(new CommandMenuElement() { CommandName = "SetPageModeTwo" }),
+                    new TreeListNode<MenuElement>(new CommandMenuElement() { CommandName = "SetPageModeWebtoon" }),
                     new TreeListNode<MenuElement>(new SeparatorMenuElement()),
                     new TreeListNode<MenuElement>(new CommandMenuElement() { CommandName = "ToggleIsPanorama" }),
                     new TreeListNode<MenuElement>(new SeparatorMenuElement()),

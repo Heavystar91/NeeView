@@ -28,6 +28,22 @@ namespace NeeView.PageFrames
         /// </summary>
         public void Cleanup(Rect viewRect)
         {
+            // Keep one extra viewport of Webtoon containers on both sides of the
+            // visible area. This pairs with PageFrameContainerFiller's preload
+            // margin and prevents rapid wheel/touchpad scrolling from constantly
+            // destroying and recreating the immediately adjacent pages.
+            if (_context.PageMode == PageMode.Webtoon)
+            {
+                if (_context.FrameOrientation == PageFrameOrientation.Vertical)
+                {
+                    viewRect.Inflate(0.0, viewRect.Height);
+                }
+                else
+                {
+                    viewRect.Inflate(viewRect.Width, 0.0);
+                }
+            }
+
             Cleanup(viewRect, LinkedListDirection.Previous);
             Cleanup(viewRect, LinkedListDirection.Next);
             //_layout.Layout(Anchor.Node); .. これいる？

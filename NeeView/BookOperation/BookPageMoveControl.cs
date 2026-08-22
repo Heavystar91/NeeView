@@ -45,12 +45,24 @@ namespace NeeView
 
         public void ScrollToPrevFrame(object? sender, ScrollPageCommandParameter parameter)
         {
+            if (BookSettings.Current.PageMode == PageMode.Webtoon)
+            {
+                _box.ScrollWebtoon(LinkedListDirection.Previous);
+                return;
+            }
+
             bool allowScroll = !Config.Current.Mouse.IsHoverScroll;
             _box.ScrollToNextFrame(LinkedListDirection.Previous, parameter, parameter.LineBreakStopMode, parameter.EndMargin, allowScroll);
         }
 
         public void ScrollToNextFrame(object? sender, ScrollPageCommandParameter parameter)
         {
+            if (BookSettings.Current.PageMode == PageMode.Webtoon)
+            {
+                _box.ScrollWebtoon(LinkedListDirection.Next);
+                return;
+            }
+
             bool allowScroll = !Config.Current.Mouse.IsHoverScroll;
             _box.ScrollToNextFrame(LinkedListDirection.Next, parameter, parameter.LineBreakStopMode, parameter.EndMargin, allowScroll);
         }

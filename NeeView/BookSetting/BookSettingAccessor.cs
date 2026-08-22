@@ -9,6 +9,11 @@ namespace NeeView
     public partial class BookSettingAccessor : IBookSetting, INotifyPropertyChanged
     {
         private readonly BookSettingConfig _setting;
+        private bool _hasWebtoonRestoreState;
+        private bool _webtoonPreviousPanorama;
+        private PageFrameOrientation _webtoonPreviousOrientation;
+        private PageStretchMode _webtoonPreviousStretchMode;
+        private double _webtoonPreviousFrameSpace;
 
 
         public BookSettingAccessor(BookSettingConfig setting)
@@ -82,7 +87,7 @@ namespace NeeView
         public PageMode PageMode
         {
             get => _setting.PageMode;
-            set => _setting.PageMode = value;
+            set => SetPageMode(value);
         }
 
         public AutoRotateType AutoRotate
@@ -115,11 +120,60 @@ namespace NeeView
             return CanEdit && _setting.PageMode == mode;
         }
 
-        // 単ページ/見開き表示設定
+        // 単ページ/見開き/Webtoon表示設定
         public void SetPageMode(PageMode mode)
         {
             if (!CanEdit) return;
+
+            var previousMode = _setting.PageMode;
+            if (previousMode == mode) return;
+
+            if (mode == PageMode.Webtoon)
+            {
+                SaveWebtoonRestoreState();
+            }
+
             _setting.PageMode = mode;
+
+            // Webtoon mode reuses NeeView's panorama engine so the normal page loader,
+            // effects pipeline, and page virtualization stay active.
+            if (mode == PageMode.Webtoon)
+            {
+                Config.Current.Book.Orientation = PageFrameOrientation.Vertical;
+                Config.Current.Book.IsPanorama = true;
+                Config.Current.Book.FrameSpace = 0.0;
+                Config.Current.View.StretchMode = PageStretchMode.UniformToHorizontal;
+            }
+            else if (previousMode == PageMode.Webtoon)
+            {
+                RestoreWebtoonState();
+            }
+        }
+
+        private void SaveWebtoonRestoreState()
+        {
+            if (_hasWebtoonRestoreState) return;
+
+            _webtoonPreviousPanorama = Config.Current.Book.IsPanorama;
+            _webtoonPreviousOrientation = Config.Current.Book.Orientation;
+            _webtoonPreviousStretchMode = Config.Current.View.StretchMode;
+            _webtoonPreviousFrameSpace = Config.Current.Book.FrameSpace;
+            _hasWebtoonRestoreState = true;
+        }
+
+        private void RestoreWebtoonState()
+        {
+            if (!_hasWebtoonRestoreState)
+            {
+                Config.Current.Book.IsPanorama = false;
+                return;
+            }
+
+            Config.Current.Book.IsPanorama = _webtoonPreviousPanorama;
+            Config.Current.Book.Orientation = _webtoonPreviousOrientation;
+            Config.Current.View.StretchMode = _webtoonPreviousStretchMode;
+            Config.Current.Book.FrameSpace = _webtoonPreviousFrameSpace;
+            _hasWebtoonRestoreState = false;
         }
 
         public void TogglePageMode(int direction, bool isLoop)

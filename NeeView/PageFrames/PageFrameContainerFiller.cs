@@ -119,6 +119,13 @@ namespace NeeView.PageFrames
         {
             double rest = _math.GetWidth(viewRect) - GetContainerSpan(anchor.Value);
 
+            // Webtoon scrolling benefits from having the next viewport worth of
+            // containers ready before the user reaches them.
+            if (_context.PageMode == PageMode.Webtoon)
+            {
+                rest += _math.GetWidth(viewRect);
+            }
+
             return alignment switch
             {
                 PageFrameAlignment.Min => new BlankSpace(0.0, rest),
@@ -134,6 +141,13 @@ namespace NeeView.PageFrames
 
             var restPrevious = conflict.GetDistance(LinkedListDirection.Previous.ToSign()) - _context.FrameMargin;
             var restNext = conflict.GetDistance(LinkedListDirection.Next.ToSign()) - _context.FrameMargin;
+
+            if (_context.PageMode == PageMode.Webtoon)
+            {
+                var preload = _math.GetWidth(viewRect);
+                restPrevious += preload;
+                restNext += preload;
+            }
 
             return new BlankSpace(restPrevious, restNext);
         }
