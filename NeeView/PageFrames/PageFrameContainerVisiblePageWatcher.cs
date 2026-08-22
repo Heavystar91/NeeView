@@ -90,6 +90,17 @@ namespace NeeView.PageFrames
                 _visibleContainers = visibleContainers;
                 _viewRange = range;
                 _viewPages = pages;
+
+                // In Webtoon mode the page under the viewport center becomes the
+                // selected/current page as the user scrolls.  SetAuto() delegates
+                // the exact center-page choice to PageFrameBox's existing selector,
+                // so page slider/history/UI state stay synchronized without snapping
+                // the view or invoking discrete page navigation.
+                if (_context.PageMode == PageMode.Webtoon && _visibleContainers.Count > 0)
+                {
+                    _selected.SetAuto();
+                }
+
                 VisibleContainersChanged?.Invoke(this, new VisibleContainersChangedEventArgs(_visibleContainers, _viewRange, _viewPages, direction));
             }
         }
