@@ -13,6 +13,8 @@
 
         void ScrollToPrevFrame(object? sender, ScrollPageCommandParameter parameter);
         void ScrollToNextFrame(object? sender, ScrollPageCommandParameter parameter);
+        void ScrollWebtoonPrev(object? sender);
+        void ScrollWebtoonNext(object? sender);
 
         void MoveTo(object? sender, int index);
         void MoveToRandom(object? sender);
