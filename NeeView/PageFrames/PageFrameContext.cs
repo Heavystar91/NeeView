@@ -138,7 +138,12 @@ namespace NeeView.PageFrames
         public ImageDotKeepConfig ImageDotKeepConfig => _config.ImageDotKeep;
         public bool IsAspectRatioEnabled => _config.Image.Standard.IsAspectRatioEnabled;
 
-        public TimeSpan ScrollDuration => TimeSpan.FromSeconds(_config.View.ScrollDuration);
+        // Webtoon mode always gets a short interpolation window so each wheel step
+        // blends into the next one instead of feeling like a sequence of hard jumps.
+        // Normal viewing modes continue to use the user's existing scroll setting.
+        public TimeSpan ScrollDuration => PageMode == PageMode.Webtoon
+            ? TimeSpan.FromSeconds(0.12)
+            : TimeSpan.FromSeconds(_config.View.ScrollDuration);
 
         [ObservableProperty]
         public partial PageMoveType PageChangeType { get; private set; }
